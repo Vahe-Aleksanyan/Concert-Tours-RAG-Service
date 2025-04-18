@@ -3,8 +3,6 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from typing import List
-
-# from langchain_community.chat_models import ChatOpenAI
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import BaseMessage
