@@ -10,8 +10,19 @@ from langchain.chains import RetrievalQA
 from langchain.docstore.document import Document
 from chromadb.config import Settings as ChromaClientSettings
 
-# from ingestion_service.app.core.config import settings
 from app.core.config import settings
+
+import chromadb
+from chromadb import HttpClient
+
+client = HttpClient(host=settings.CHROMA_HOST, port=settings.CHROMA_PORT)
+
+# Recreate collection if deleted
+try:
+    client.get_collection(settings.CHROMA_COLLECTION)
+except:
+    client.create_collection(settings.CHROMA_COLLECTION)
+
 
 # Embedding function
 _embedder = OpenAIEmbeddings(
@@ -19,18 +30,15 @@ _embedder = OpenAIEmbeddings(
     model=settings.EMBEDDING_MODEL_NAME,
 )
 
-# Build a real Chroma client settings object
-# client_settings = ChromaClientSettings(
-#     host=settings.CHROMA_HOST,
-#     port=settings.CHROMA_PORT,
-#     persist_directory=str(settings.CHROMA_PERSIST_DIR) if settings.CHROMA_PERSIST_DIR else None,
-# )
 
-client_settings = ChromaClientSettings()
+chroma_client = HttpClient(
+    host=settings.CHROMA_HOST,
+    port=settings.CHROMA_PORT
+)
 
-# Initialize (or load) the vector store
 vector_store = Chroma(
-    client_settings=client_settings,
+    client=chroma_client,
+    persist_directory=str(settings.CHROMA_PERSIST_DIR),
     collection_name=settings.CHROMA_COLLECTION,
     embedding_function=_embedder,
 )

@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     TEMPERATURE: float = 0.2
     MAX_TOKENS: int = 512
     RETRIEVAL_K: int = 10
+    CHROMA_PERSIST_DIR: Path = Path("/data/chroma/persist")
 
     class Config:
         env_file = ".env"

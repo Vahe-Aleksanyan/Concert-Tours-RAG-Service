@@ -1,14 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
-
-# from ingestion_service.app.core.models import DocIn, DocOut, ArtistOut
 from app.core.models import DocIn, DocOut, ArtistOut
 
-
-# from ingestion_service.app.services.ingestion import (
-#     ingest_document,
-#     is_concert_document,
-#     lookup_artist_online,  # BONUS – safe to stub “pass” if not needed yet
-# )
 from app.services.ingestion import (
     ingest_document,
     is_concert_document,
