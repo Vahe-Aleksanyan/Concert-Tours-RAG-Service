@@ -1,0 +1,14 @@
+[project]
+name = "concert_ingestion_service"
+version = "0.1.0"
+description = "FastAPI service that ingests concert‑tour documents into Chroma"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+[tool.black]
+line-length = 88

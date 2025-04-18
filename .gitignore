@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+newenv/
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Chroma vector‑store persistence
+chroma_data/
