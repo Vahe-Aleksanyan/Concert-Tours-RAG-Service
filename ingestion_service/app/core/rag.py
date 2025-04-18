@@ -38,7 +38,6 @@ chroma_client = HttpClient(
 
 vector_store = Chroma(
     client=chroma_client,
-    persist_directory=str(settings.CHROMA_PERSIST_DIR),
     collection_name=settings.CHROMA_COLLECTION,
     embedding_function=_embedder,
 )

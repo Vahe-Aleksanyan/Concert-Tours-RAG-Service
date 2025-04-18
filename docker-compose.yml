@@ -1,11 +1,55 @@
+#version: "3.9"
+#
+#services:
+#  chroma:
+#    image: chromadb/chroma:latest
+#    ports: ["8001:8000"]
+#    volumes:
+#      - chroma_data:/chroma/.chroma
+#    environment:
+#      - IS_PERSISTENT=TRUE
+#      - PERSIST_DIRECTORY=/chroma/.chroma
+#
+#
+#  ingestion:
+#    build:
+#      context: .
+#      dockerfile: ingestion_service/Dockerfile
+#    env_file: .env
+#    ports: ["8003:8000"]
+#    volumes:
+#      - ./ingestion_service:/code
+#      - chroma_data:/chroma/.chroma
+#  qa:
+#    build:
+#      context: .
+#      dockerfile: qa_service/Dockerfile
+#    env_file: .env
+#    depends_on: [ chroma ]
+#    ports: [ "8004:8000" ]
+#
+#volumes:
+#  chroma_data:
+
+
+# docker‑compose.yaml
 version: "3.9"
 
 services:
   chroma:
-    image: chromadb/chroma:latest
+    image: chromadb/chroma:0.6.3          # pin a stable version
     ports: ["8001:8000"]
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma  # default path
     volumes:
-      - chroma_data:/chroma/.chroma
+      - chroma_data:/chroma/chroma        # ← path matches the server
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
 
   ingestion:
     build:
@@ -15,14 +59,19 @@ services:
     ports: ["8003:8000"]
     volumes:
       - ./ingestion_service:/code
-      - ./chroma_data:/data/chroma
+    depends_on:
+      chroma:
+        condition: service_healthy
+
   qa:
     build:
       context: .
       dockerfile: qa_service/Dockerfile
     env_file: .env
-    depends_on: [ chroma ]
-    ports: [ "8004:8000" ]
+    depends_on:
+      chroma:
+        condition: service_healthy
+    ports: ["8004:8000"]
 
 volumes:
   chroma_data:

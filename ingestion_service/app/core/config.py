@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     MAX_TOKENS: int = 512
     RETRIEVAL_K: int = 10
 
-    CHROMA_PERSIST_DIR: Path = Path("/data/chroma/persist")
+    CHROMA_PERSIST_DIR: Path = Path("/chroma/.chroma")
 
     # Where to store local Chroma if using `persist_directory`
     DATA_DIR: Path = Path("/data/chroma")
