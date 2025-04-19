@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     # Where to store local Chroma if using `persist_directory`
     DATA_DIR: Path = Path("/data/chroma")
 
+    SERPAPI_KEY: str
+    SERPAPI_URL: str = "https://serpapi.com/search.json"
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
