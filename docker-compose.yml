@@ -38,5 +38,19 @@ services:
         condition: service_healthy
     ports: ["8004:8000"]
 
+  streamlit:
+    build:
+      context: .
+      dockerfile: streamlit_service/Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      - INGEST_URL=http://ingestion:8000/api/v1/ingest
+      - ASK_URL=http://qa:8000/api/v1/ask
+      - ARTIST_URL=http://ingestion:8000/api/v1/artist
+    depends_on:
+      - ingestion
+      - qa
+
 volumes:
   chroma_data:
