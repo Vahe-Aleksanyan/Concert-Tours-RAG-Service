@@ -19,7 +19,7 @@
 * Simple Streamlit app to add docs and ask questions.
 
 ### Dual Mode
-
+If no docs exist for an artist, an explicitly separated mode can query the web (e.g., SerpAPI/Bing) and answer based on public sources.
 
 To run the project, configure your .env file with your OPENAI_API_KEY and SERPAPI_KEY. Then simply run docker compose up --build. This will start all services and orchestrate them via Docker Compose, including health checks and persistent volumes. The project flow starts with 40 manually generated documents—some relevant to concert tours and others not. The ingestion service processes each document, summarizes it, and decides whether to keep it based on keyword detection. Relevant documents are split into chunks and stored in a vector database (Chroma). After that, users can ask questions that get answered strictly using the ingested content—general questions are restricted. We also built an internet search feature for live artist lookups using Serper.dev. Finally, we added a Streamlit UI for easy interaction and testing. All logic is wrapped in clear, well-documented REST APIs. Screenshots and visual demos are included for clarity.
 
